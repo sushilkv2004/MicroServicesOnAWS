@@ -1,5 +1,5 @@
 # Welcome to Serverless!
-service: photos
+service: photo
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -8,8 +8,7 @@ service: photos
 provider:
   name: aws
   runtime: python3.7
-  profile: cr
-  region: us-west-2
+  region: us-east-2
   stage: ${self:custom.currentStage}
   logRetentionInDays: 5
   timeout: 30
@@ -26,8 +25,8 @@ provider:
         - s3:GetObject
         - s3:DeleteObject
       Resource: 
-        - "arn:aws:s3:::crphotoapp/*"
-        - "arn:aws:s3:::crphotoapp-dev/*"
+        - "arn:aws:s3:::svprojphotoapp/*"
+        - "arn:aws:s3:::svprojphotoapp-dev/*"
     - Effect: Allow
       Action:
         - logs:CreateLogGroup
@@ -43,8 +42,8 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:UpdateItem
       Resource: 
-        - arn:aws:dynamodb:us-west-2:188966951897:table/photoUsers
-        - arn:aws:dynamodb:us-west-2:188966951897:table/devPhotoUsers
+        - arn:aws:dynamodb:us-east-2:239286298960:table/photoUsers
+        - arn:aws:dynamodb:us-east-2:239286298960:table/devPhotoUsers
     - Effect: Allow
       Action:
         - cognito-idp:AdminListGroupsForUser
@@ -64,13 +63,13 @@ package:
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  userPoolArn: "arn:aws:cognito-idp:us-west-2:188966951897:userpool/us-west-2_v8zZp3Jvv"
+  userPoolArn: "arn:aws:cognito-idp:us-east-2:239286298960:userpool/us-east-2_4vEaEf342"
   dynamo_table:
     prod: "photoUsers"
     dev: "devPhotoUsers"
   s3_bucket: 
-    prod: "crphotoapp"
-    dev: "crphotoapp-dev"
+    prod: "svprojphotoapp"
+    dev: "svprojphotoapp-dev"
   s3_keybase: "private/"
   prune:
     automatic: true
@@ -114,6 +113,12 @@ functions:
         event: s3:ObjectCreated:*
         rules:
           - suffix: .jpg
+        existing: true
+     - s3: 
+        bucket: ${self:custom.s3_bucket.${self:custom.currentStage}}
+        event: s3:ObjectCreated:*
+        rules:
+          - suffix: .jpeg
         existing: true
      - s3: 
         bucket: ${self:custom.s3_bucket.${self:custom.currentStage}}

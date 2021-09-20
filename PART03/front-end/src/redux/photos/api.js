@@ -1,8 +1,8 @@
-//import { API, Storage, Logger } from 'aws-amplify';
-import { API, Storage } from 'aws-amplify';
+import { API, Storage, Logger } from 'aws-amplify';
+//import { API, Storage } from 'aws-amplify';
 import { APINAME  } from '../../config';
 
-//Logger.LOG_LEVEL = 'DEBUG'
+Logger.LOG_LEVEL = 'DEBUG'
 
 const api = {
   get() {
