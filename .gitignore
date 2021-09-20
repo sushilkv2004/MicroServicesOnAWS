@@ -19,3 +19,15 @@ var/
 
 # Serverless directories
 .serverless
+
+.DS_Store
+PART02/.DS_Store
+PART03/front-end/package-lock.json
+PART03/front-end/src/config-example-bkup.js
+PART03/front-end/src/config.js
+PART04/.terraform.lock.hcl
+PART04/.terraform/
+PART04/package-lock.json
+PART04/terraform.tfstate
+serverless/node_modules/
+serverless/package-lock.json
